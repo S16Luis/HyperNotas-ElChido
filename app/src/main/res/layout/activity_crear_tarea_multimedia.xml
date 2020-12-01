@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF6A4"
+    tools:context=".CrearTareaMultimedia">
+
+    <EditText
+        android:id="@+id/txttituloCTM"
+        android:layout_width="360dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/titulo"
+        android:inputType="textPersonName"
+        android:maxLength="25"
+        android:textColorHint="#020202"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvfecharCTM"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/fecharealizacion"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txttituloCTM" />
+
+    <TextView
+        android:id="@+id/tvlistamultimedias"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/multimedias"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvmultimediaCTM" />
+
+    <Button
+        android:id="@+id/btnfechaCTM"
+        android:layout_width="70dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="10dp"
+        android:onClick="SeleccionarFecha"
+        android:text="@string/fecha"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvfecharCTM" />
+
+    <EditText
+        android:id="@+id/txtfechaCTM"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:autofillHints=""
+        android:clickable="true"
+        android:ems="10"
+        android:focusable="false"
+        android:hint="@string/vacio"
+        android:inputType="none"
+        android:textColor="#000000"
+        android:textIsSelectable="false"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/btnfechaCTM"
+        app:layout_constraintTop_toBottomOf="@+id/tvfecharCTM" />
+
+    <Button
+        android:id="@+id/btnhoraCTM"
+        android:layout_width="70dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:onClick="SeleccionarHora"
+        android:text="@string/hora"
+        app:layout_constraintStart_toEndOf="@+id/txtfechaCTM"
+        app:layout_constraintTop_toBottomOf="@+id/tvfecharCTM" />
+
+    <EditText
+        android:id="@+id/txthoraCTM"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:autofillHints=""
+        android:clickable="true"
+        android:ems="10"
+        android:focusable="false"
+        android:hint="@string/vacio"
+        android:inputType="none"
+        android:textIsSelectable="false"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/btnhoraCTM"
+        app:layout_constraintTop_toBottomOf="@+id/tvfecharCTM" />
+
+    <TextView
+        android:id="@+id/tvmultimediaCTM"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/multimedia"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnfechaCTM" />
+
+    <Button
+        android:id="@+id/btncamaraCTM"
+        android:layout_width="75dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:onClick="TomarFoto"
+        android:text="@string/camara"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/tvmultimediaCTM"
+        app:layout_constraintTop_toBottomOf="@+id/btnfechaCTM" />
+
+    <Button
+        android:id="@+id/btnvideoCTM"
+        android:layout_width="60dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:onClick="Video"
+        android:text="@string/video"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/btncamaraCTM"
+        app:layout_constraintTop_toBottomOf="@+id/btnfechaCTM" />
+
+    <Button
+        android:id="@+id/btnaudioCTM"
+        android:layout_width="60dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:onClick="Audio"
+        android:text="@string/audio"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/btnvideoCTM"
+        app:layout_constraintTop_toBottomOf="@+id/btnhoraCTM" />
+
+    <Button
+        android:id="@+id/btngaleriaCTM"
+        android:layout_width="75dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:onClick="Galeria"
+        android:text="@string/galeria"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/btnaudioCTM"
+        app:layout_constraintTop_toBottomOf="@+id/btnhoraCTM" />
+
+    <EditText
+        android:id="@+id/txtdescripcionCTM"
+        android:layout_width="360dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="10dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="@string/descripcion"
+        android:inputType="textMultiLine"
+        android:textColorHint="#020202"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lvmultimedias" />
+
+    <Button
+        android:id="@+id/btnguardarCTM"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="515dp"
+        android:background="#0DD115"
+        android:onClick="Guardar"
+        android:text="@string/guardar"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/lvmultimedias"
+        android:layout_width="409dp"
+        android:layout_height="139dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvlistamultimedias" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

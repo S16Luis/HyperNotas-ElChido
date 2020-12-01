@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">HyperNotas</string>
+    <string name="nueva">+</string>
+    <string name="titulo">Título</string>
+    <string name="descripcion">Descripción</string>
+    <string name="guardar">Guardar</string>
+    <string name="buscar">Buscar</string>
+    <string name="notas">Notas</string>
+    <string name="tareas">Tareas Multimedia</string>
+    <string name="clave">No.</string>
+    <string name="fecha">Fecha</string>
+    <string name="btneditar">Editar</string>
+    <string name="btneliminar">Eliminar</string>
+    <string name="fecharealizacion">Fecha y hora de realización</string>
+    <string name="vacio"></string>
+    <string name="hora">Hora</string>
+    <string name="multimedia">Insertar Multimedia</string>
+    <string name="camara">Foto</string>
+    <string name="audio">Audio</string>
+    <string name="video">Video</string>
+    <string name="galeria">Galería</string>
+    <string name="multimedias">Multimedias</string>
+    <string name="añadir">Añadir</string>
+    <string name="cantidad">Cantidad</string>
+    <string name="completada">Completada</string>
+</resources>

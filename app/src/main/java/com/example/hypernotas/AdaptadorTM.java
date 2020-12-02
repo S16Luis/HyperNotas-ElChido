@@ -2,6 +2,7 @@ package com.example.hypernotas;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -88,6 +90,21 @@ public class AdaptadorTM extends BaseAdapter {
                 context.startActivity(intent);
             }
         });
+
+        btnelim.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                BD admin =new BD(context,"hypernotas",null,1);
+                SQLiteDatabase bd=admin.getWritableDatabase();
+                int cantidad=bd.delete("multimedias","Tarea="+item.getTvclave(),null);
+                int cantidad2=bd.delete("tareas","ClaveTarea="+item.getTvclave(),null);
+                bd.close();
+                Toast.makeText(context, "Tarea Multimedia Eliminada", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return view;
 
 

@@ -61,7 +61,7 @@ public class CrearTareaMultimedia extends AppCompatActivity {
         btnvideo=findViewById(R.id.btnvideoCTM);
         btnaudio=findViewById(R.id.btnaudioCTM);
         btngaleria=findViewById(R.id.btngaleriaCTM);
-        lvmultimedias=findViewById(R.id.lvmultimedias);
+        lvmultimedias=findViewById(R.id.lvmultimediasCTM);
         lista= new ArrayList<>();
         uris= new ArrayList<>();
         tipos= new ArrayList<>();

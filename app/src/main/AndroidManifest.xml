@@ -17,8 +17,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".VisualizarImagenes"></activity>
-        <activity android:name=".CrearTareaMultimedia"></activity>
+        <activity android:name=".MostrarTareaM"></activity>
+        <activity android:name=".VisualizarImagenes" />
+        <activity android:name=".CrearTareaMultimedia" />
         <activity android:name=".ModificarNota" />
         <activity android:name=".MostrarNota" />
         <activity android:name=".CrearNota" />
@@ -37,7 +38,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
     </application>
 

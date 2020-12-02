@@ -1,6 +1,7 @@
 package com.example.hypernotas;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,42 @@ public class AdaptadorTM extends BaseAdapter {
         cbcom.setText("Completada");
         btnedit.setText("Editar");
         btnelim.setText("Eliminar");
+
+        tvtit.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(context,MostrarTareaM.class);
+                intent.putExtra("clave",item.getTvclave());
+                context.startActivity(intent);
+            }
+        });
+
+        tvfec.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(context,MostrarTareaM.class);
+                intent.putExtra("clave",item.getTvclave());
+                context.startActivity(intent);
+            }
+        });
+
+        tvcant.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(context,MostrarTareaM.class);
+                intent.putExtra("clave",item.getTvclave());
+                context.startActivity(intent);
+            }
+        });
         return view;
+
+
     }
+
 }

@@ -47,6 +47,7 @@ public class BD extends SQLiteOpenHelper{
         return listanotas;
     }
 
+
     public ArrayList MostrarTareas()
     {
         ArrayList <EntidadTM> listatareas= new ArrayList<>();
@@ -96,4 +97,41 @@ public class BD extends SQLiteOpenHelper{
         }
         return clave;
     }
+
+    public TareaM ObtenerTareaM(int clave)
+    {
+        TareaM tm= new TareaM();
+        bd= this.getWritableDatabase();
+        String consulta = "Select * from tareas where ClaveTarea ="+clave;
+        Cursor registros = bd.rawQuery(consulta,null);
+        if(registros.moveToFirst())
+        {
+            do {
+                tm.clave=registros.getInt(0);
+                tm.titulo=registros.getString(1);
+                tm.fechac=registros.getString(2);
+                tm.fechar=registros.getString(3);
+                tm.hora=registros.getString(4);
+                tm.descripcion=registros.getString(5);
+                tm.completado=registros.getString(6);
+            }while(registros.moveToNext());
+        }
+        return tm;
+    }
+
+    public ArrayList ObtenerMultimedia( int clave)
+    {
+        ArrayList <EntidadM> listamultimedia= new ArrayList<>();
+        bd= this.getWritableDatabase();
+        String consulta="Select * from multimedias where Tarea = " + clave;
+        Cursor registros = bd.rawQuery(consulta,null);
+        if(registros.moveToFirst())
+        {
+            do {
+                listamultimedia.add(new EntidadM(registros.getString(1), R.drawable.camara, Uri.parse(registros.getString(2)), R.id.btneditar,R.id.btneliminar));
+            }while(registros.moveToNext());
+        }
+        return listamultimedia;
+    }
+
 }

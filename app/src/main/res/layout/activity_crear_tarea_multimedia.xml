@@ -38,7 +38,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txttituloCTM" />
 
     <TextView
-        android:id="@+id/tvlistamultimedias"
+        android:id="@+id/tvlistamultimediasCTM"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -179,7 +179,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lvmultimedias" />
+        app:layout_constraintTop_toBottomOf="@+id/lvmultimediasCTM" />
 
     <Button
         android:id="@+id/btnguardarCTM"
@@ -196,12 +196,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
-        android:id="@+id/lvmultimedias"
+        android:id="@+id/lvmultimediasCTM"
         android:layout_width="409dp"
         android:layout_height="139dp"
         android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvlistamultimedias" />
+        app:layout_constraintTop_toBottomOf="@+id/tvlistamultimediasCTM" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

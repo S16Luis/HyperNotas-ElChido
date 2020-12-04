@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 import java.util.ArrayList;
 
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     AdaptadorN adaptador;
     ArrayAdapter adapter;
     AdaptadorTM adap;
+    SearchView buscarnota;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +31,72 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setIcon(R.mipmap.ic_launcher);
         lvnot=findViewById(R.id.lvnotas);
         lvtareas=findViewById(R.id.lvtareas);
+        buscarnota=findViewById(R.id.svbuscarN);
         actualizarlista();
         actualizarlista2();
+
+        buscarnota.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                if(lista.size()==0)
+                {
+                    if(lista2.size()==0)
+                    {
+
+                    }
+                    else
+                    {
+                        MainActivity.this.adap.getFilter().filter(s);
+                    }
+
+                }
+                else
+                {
+                    if(lista2.size()==0)
+                    {
+
+                    }
+                    else
+                    {
+                        MainActivity.this.adap.getFilter().filter(s);
+                        MainActivity.this.adaptador.getFilter().filter(s);
+                    }
+                }
+                if(lista2.size()==0)
+                {
+                    if(lista.size()==0)
+                    {
+
+                    }
+                    else
+                    {
+                        MainActivity.this.adaptador.getFilter().filter(s);
+                    }
+                }
+                else
+                {
+                    if(lista.size()==0)
+                    {
+
+                    }
+                    else
+                    {
+                        MainActivity.this.adap.getFilter().filter(s);
+                        MainActivity.this.adaptador.getFilter().filter(s);
+                    }
+                }
+                if(lista.size()==0&&lista2.size()==0)
+                {
+
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -106,5 +172,4 @@ public class MainActivity extends AppCompatActivity {
         });
             cuadroDialogo.create().show();
     }
-
 }

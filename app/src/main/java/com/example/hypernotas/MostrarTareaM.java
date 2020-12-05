@@ -3,6 +3,7 @@ package com.example.hypernotas;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,6 +39,5 @@ public class MostrarTareaM extends AppCompatActivity {
         descripcion.setText(tar.descripcion);
         Adaptador = new AdaptadorMultimedias(this, lista);
         lvmultimedia.setAdapter(Adaptador);
-
-    }
+}
 }

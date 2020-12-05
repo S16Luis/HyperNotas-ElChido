@@ -91,6 +91,17 @@ public class AdaptadorTM extends BaseAdapter {
             }
         });
 
+        btnedit.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(context,ModificarTareaM.class);
+                intent.putExtra("clave",item.getTvclave());
+                context.startActivity(intent);
+            }
+        });
+
         btnelim.setOnClickListener(new View.OnClickListener()
         {
             @Override

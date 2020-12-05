@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MostrarTareaM"></activity>
+        <activity android:name=".ModificarTareaM"></activity>
+        <activity android:name=".MostrarTareaM" />
         <activity android:name=".VisualizarImagenes" />
         <activity android:name=".CrearTareaMultimedia" />
         <activity android:name=".ModificarNota" />

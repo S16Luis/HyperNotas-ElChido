@@ -48,9 +48,19 @@ public class AdaptadorMultimedias extends BaseAdapter {
             @Override
             public void onClick(View v)
             {
-                Intent intent = new Intent(context,VisualizarImagenes.class);
-                intent.putExtra("Uri",String.valueOf(item.getUri()));
-                context.startActivity(intent);
+                if(item.getTipo().equals("Foto"))
+                {
+                    Intent intent = new Intent(context,VisualizarImagenes.class);
+                    intent.putExtra("Uri",String.valueOf(item.getUri()));
+                    context.startActivity(intent);
+                }
+                if(item.getTipo().equals("Video"))
+                {
+                    Intent intent = new Intent(context,VisualizarVideos.class);
+                    intent.putExtra("Uri",String.valueOf(item.getUri()));
+                    context.startActivity(intent);
+                }
+
             }
         });
         return view;

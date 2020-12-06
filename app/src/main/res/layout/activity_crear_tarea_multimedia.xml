@@ -136,7 +136,7 @@
         android:layout_width="60dp"
         android:layout_height="35dp"
         android:layout_marginTop="10dp"
-        android:onClick="Video"
+        android:onClick="TomarVideo"
         android:text="@string/video"
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/btncamaraCTM"

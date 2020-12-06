@@ -41,8 +41,9 @@ public class CrearTareaMultimedia extends AppCompatActivity {
     ArrayList<String> tipos;
     AdaptadorMultimedias adaptador;
     String ruta="";
-    Uri rutafoto;
+    Uri rutaarchivo;
     final int Photo=1;
+    final int Video=2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,25 +132,59 @@ public class CrearTareaMultimedia extends AppCompatActivity {
         return photofile;
     }
 
+    //Metodos para los videos
+    public void TomarVideo(View v)
+    {
+        Intent tomarvideo= new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        if(tomarvideo.resolveActivity(getPackageManager())!=null)
+        {
+            File videofile = null;
+            try
+            {
+                videofile=CrearVideoFile();
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+            if(videofile!=null)
+            {
+                Uri videouri= FileProvider.getUriForFile(CrearTareaMultimedia.this,"com.example.hypernotas",videofile);
+                tomarvideo.putExtra(MediaStore.EXTRA_OUTPUT,videouri);
+                startActivityForResult(tomarvideo,Video);
+            }
+        }
+    }
+
+    public File CrearVideoFile() throws IOException {
+        String tiempo = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        String nombre = "video"+tiempo;
+        File storagefile = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File videofile = File.createTempFile(nombre,".mp4",storagefile);
+        ruta=videofile.getAbsolutePath();
+        return videofile;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Photo && resultCode == RESULT_OK) {
-            rutafoto = Uri.parse(ruta);
-            lista.add(new EntidadM("Foto",R.drawable.camara,rutafoto,R.id.btnañadir,R.id.btnelim));
+            rutaarchivo = Uri.parse(ruta);
+            lista.add(new EntidadM("Foto",R.drawable.camara,rutaarchivo,R.id.btnañadir,R.id.btnelim));
             tipos.add("Foto");
-            uris.add(rutafoto);
+            uris.add(rutaarchivo);
             adaptador= new AdaptadorMultimedias(this,lista);
             lvmultimedias.setAdapter(adaptador);
         }
-    }//ultimo metodo para tomar fotos
-
-    public void Video(View v)
-    {
-        //lista.add(new EntidadM("Video",R.drawable.video,R.id.btnañadir,R.id.btnelim));
-        adaptador= new AdaptadorMultimedias(this,lista);
-        lvmultimedias.setAdapter(adaptador);
-    }
+        if (requestCode == Video && resultCode == RESULT_OK) {
+            rutaarchivo = Uri.parse(ruta);
+            lista.add(new EntidadM("Video",R.drawable.video,rutaarchivo,R.id.btnañadir,R.id.btnelim));
+            tipos.add("Video");
+            uris.add(rutaarchivo);
+            adaptador= new AdaptadorMultimedias(this,lista);
+            lvmultimedias.setAdapter(adaptador);
+        }
+    }//ultimo metodo para tomar fotos y videos
 
     public void Audio(View v)
     {

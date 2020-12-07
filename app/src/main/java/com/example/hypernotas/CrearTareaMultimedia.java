@@ -44,6 +44,7 @@ public class CrearTareaMultimedia extends AppCompatActivity {
     Uri rutaarchivo;
     final int Photo=1;
     final int Video=2;
+    final int Galeria=4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,6 +166,13 @@ public class CrearTareaMultimedia extends AppCompatActivity {
         return videofile;
     }
 
+    public void CargarImagen(View v)
+    {
+        Intent galeria= new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        galeria.setType("image/");
+        startActivityForResult(galeria,Galeria);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -184,18 +192,19 @@ public class CrearTareaMultimedia extends AppCompatActivity {
             adaptador= new AdaptadorMultimedias(this,lista);
             lvmultimedias.setAdapter(adaptador);
         }
-    }//ultimo metodo para tomar fotos y videos
+        if (requestCode == Galeria && resultCode == RESULT_OK) {
+            rutaarchivo = data.getData();
+            lista.add(new EntidadM("Galeria",R.drawable.galeria,rutaarchivo,R.id.btnañadir,R.id.btnelim));
+            tipos.add("Galeria");
+            uris.add(rutaarchivo);
+            adaptador= new AdaptadorMultimedias(this,lista);
+            lvmultimedias.setAdapter(adaptador);
+        }
+    }//ultimo metodo para tomar fotos, videos y galeria
 
     public void Audio(View v)
     {
         //lista.add(new EntidadM("Audio",R.drawable.audio,R.id.btnañadir,R.id.btnelim));
-        adaptador= new AdaptadorMultimedias(this,lista);
-        lvmultimedias.setAdapter(adaptador);
-    }
-
-    public void Galeria(View v)
-    {
-        //lista.add(new EntidadM("Galeria",R.drawable.galeria,R.id.btnañadir,R.id.btnelim));
         adaptador= new AdaptadorMultimedias(this,lista);
         lvmultimedias.setAdapter(adaptador);
     }

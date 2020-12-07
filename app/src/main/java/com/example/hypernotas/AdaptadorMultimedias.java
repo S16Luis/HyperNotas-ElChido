@@ -60,6 +60,12 @@ public class AdaptadorMultimedias extends BaseAdapter {
                     intent.putExtra("Uri",String.valueOf(item.getUri()));
                     context.startActivity(intent);
                 }
+                if(item.getTipo().equals("Galeria"))
+                {
+                    Intent intent = new Intent(context,VisualizarImagenes.class);
+                    intent.putExtra("Uri",String.valueOf(item.getUri()));
+                    context.startActivity(intent);
+                }
 
             }
         });

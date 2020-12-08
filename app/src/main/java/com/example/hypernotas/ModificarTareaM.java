@@ -38,9 +38,11 @@ public class ModificarTareaM extends AppCompatActivity {
     ArrayList<EntidadM> lista;
     ArrayList<Uri> uris;
     ArrayList<String> tipos;
+    ArrayList<String> nombres;
     AdaptadorMultimedias Adaptador;
     private int dia, mes, ano,hora, minutos,clave;
     String ruta="";
+    String nombre="";
     Uri rutaarchivo;
     final int Photo=1;
     final int Video=2;
@@ -75,6 +77,7 @@ public class ModificarTareaM extends AppCompatActivity {
         lvmultimedia.setAdapter(Adaptador);
         uris = new ArrayList<>();
         tipos = new ArrayList<>();
+        nombres= new ArrayList<>();
     }
 
     public void SeleccionarFecha(View v)
@@ -133,7 +136,7 @@ public class ModificarTareaM extends AppCompatActivity {
 
     public File CrearPhotoFile() throws IOException {
         String tiempo = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        String nombre = "imagen"+tiempo;
+        nombre = "imagen"+tiempo;
         File storagefile = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File photofile = File.createTempFile(nombre,".jpg",storagefile);
         ruta=photofile.getAbsolutePath();
@@ -166,7 +169,7 @@ public class ModificarTareaM extends AppCompatActivity {
 
     public File CrearVideoFile() throws IOException {
         String tiempo = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        String nombre = "video"+tiempo;
+        nombre = "video"+tiempo;
         File storagefile = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File videofile = File.createTempFile(nombre,".mp4",storagefile);
         ruta=videofile.getAbsolutePath();
@@ -213,9 +216,10 @@ public class ModificarTareaM extends AppCompatActivity {
                 btnaudio.setText("AUDIO");
                 Toast.makeText(this, "Grabación Terminada", Toast.LENGTH_SHORT).show();
                 rutaarchivo = Uri.parse(ruta);
-                lista.add(new EntidadM("Audio",R.drawable.audio,rutaarchivo,R.id.btnañadir,R.id.btnelim));
+                lista.add(new EntidadM("Audio",R.drawable.audio,rutaarchivo,nombre));
                 tipos.add("Audio");
                 uris.add(rutaarchivo);
+                nombres.add(nombre);
                 Adaptador= new AdaptadorMultimedias(this,lista);
                 lvmultimedia.setAdapter(Adaptador);
             }
@@ -224,7 +228,7 @@ public class ModificarTareaM extends AppCompatActivity {
 
     public void CrearAudioFile() throws IOException {
         String tiempo = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        String nombre = "audio"+tiempo;
+        nombre = "audio"+tiempo;
         ruta=getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath()+"/"+nombre+".mp3";
     }
 
@@ -241,25 +245,29 @@ public class ModificarTareaM extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Photo && resultCode == RESULT_OK) {
             rutaarchivo = Uri.parse(ruta);
-            lista.add(new EntidadM("Foto",R.drawable.camara,rutaarchivo,R.id.btnañadir,R.id.btnelim));
+            lista.add(new EntidadM("Foto",R.drawable.camara,rutaarchivo,nombre));
             tipos.add("Foto");
             uris.add(rutaarchivo);
+            nombres.add(nombre);
             Adaptador= new AdaptadorMultimedias(this,lista);
             lvmultimedia.setAdapter(Adaptador);
         }
         if (requestCode == Video && resultCode == RESULT_OK) {
             rutaarchivo = Uri.parse(ruta);
-            lista.add(new EntidadM("Video",R.drawable.video,rutaarchivo,R.id.btnañadir,R.id.btnelim));
+            lista.add(new EntidadM("Video",R.drawable.video,rutaarchivo,nombre));
             tipos.add("Video");
             uris.add(rutaarchivo);
+            nombres.add(nombre);
             Adaptador= new AdaptadorMultimedias(this,lista);
             lvmultimedia.setAdapter(Adaptador);
         }
         if (requestCode == Galeria && resultCode == RESULT_OK) {
             rutaarchivo = data.getData();
-            lista.add(new EntidadM("Galeria",R.drawable.galeria,rutaarchivo,R.id.btnañadir,R.id.btnelim));
+            nombre="galeria"+rutaarchivo.toString();
+            lista.add(new EntidadM("Galeria",R.drawable.galeria,rutaarchivo,nombre));
             tipos.add("Galeria");
             uris.add(rutaarchivo);
+            nombres.add(nombre);
             Adaptador= new AdaptadorMultimedias(this,lista);
             lvmultimedia.setAdapter(Adaptador);
         }
@@ -294,10 +302,12 @@ public class ModificarTareaM extends AppCompatActivity {
                     Multimedia multimedia = new Multimedia();
                     multimedia.tipo = tipos.get(i);
                     multimedia.multimedia = uris.get(i);
+                    multimedia.nombre=nombres.get(i);
                     multimedia.tarea = clave;
                     ContentValues regis = new ContentValues();
                     regis.put("tipo", multimedia.tipo);
                     regis.put("multimedia", String.valueOf(multimedia.multimedia));
+                    regis.put("nombre",String.valueOf(multimedia.nombre));
                     regis.put("tarea", multimedia.tarea);
                     bd.insert("multimedias", null, regis);
                 }

@@ -6,6 +6,7 @@ public class Multimedia {
     int clave;
     String tipo;
     Uri multimedia;
+    String nombre;
     int tarea;
 
     public int getClave() {
@@ -30,6 +31,14 @@ public class Multimedia {
 
     public void setMultimedia(Uri multimedia) {
         this.multimedia = multimedia;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public int getTarea() {

@@ -2,13 +2,16 @@ package com.example.hypernotas;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class AdaptadorMultimedias extends BaseAdapter {
@@ -60,13 +63,27 @@ public class AdaptadorMultimedias extends BaseAdapter {
                     intent.putExtra("Uri",String.valueOf(item.getUri()));
                     context.startActivity(intent);
                 }
+                if(item.getTipo().equals("Audio"))
+                {
+                    MediaPlayer mediaPlayer = new MediaPlayer();
+                    try
+                    {
+                        mediaPlayer.setDataSource(item.getUri().toString());
+                        mediaPlayer.prepare();
+                    }
+                    catch(IOException e)
+                    {
+
+                    }
+                    mediaPlayer.start();
+                    Toast.makeText(context, "Reproduciendo audio", Toast.LENGTH_SHORT).show();
+                }
                 if(item.getTipo().equals("Galeria"))
                 {
                     Intent intent = new Intent(context,VisualizarImagenes.class);
                     intent.putExtra("Uri",String.valueOf(item.getUri()));
                     context.startActivity(intent);
                 }
-
             }
         });
         return view;

@@ -138,6 +138,11 @@ public class BD extends SQLiteOpenHelper{
                     listamultimedia.add(new EntidadM(registros.getString(1), R.drawable.video,
                             Uri.parse(registros.getString(2)), R.id.btneditar,R.id.btneliminar));
                 }
+                if(registros.getString(1).equals("Audio"))
+                {
+                    listamultimedia.add(new EntidadM(registros.getString(1), R.drawable.audio,
+                            Uri.parse(registros.getString(2)), R.id.btneditar,R.id.btneliminar));
+                }
                 if(registros.getString(1).equals("Galeria"))
                 {
                     listamultimedia.add(new EntidadM(registros.getString(1), R.drawable.galeria,

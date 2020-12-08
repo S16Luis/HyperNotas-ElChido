@@ -147,7 +147,7 @@
         android:layout_width="60dp"
         android:layout_height="35dp"
         android:layout_marginTop="10dp"
-        android:onClick="Audio"
+        android:onClick="GrabarAudio"
         android:text="@string/audio"
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/btnvideoCTM"

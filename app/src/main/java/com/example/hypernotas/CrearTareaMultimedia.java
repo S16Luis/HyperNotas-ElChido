@@ -9,6 +9,9 @@ import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -32,7 +35,7 @@ import java.util.Locale;
 
 public class CrearTareaMultimedia extends AppCompatActivity {
 
-    Button btnfecha, btnhora, btncamara, btnvideo, btnaudio, btngaleria;
+    Button  btnaudio;
     EditText ettitulo, etfecha, ethora, etdescripcion;
     private int dia, mes, ano, hora, minutos;
     ListView lvmultimedias;
@@ -44,7 +47,8 @@ public class CrearTareaMultimedia extends AppCompatActivity {
     Uri rutaarchivo;
     final int Photo=1;
     final int Video=2;
-    final int Galeria=4;
+    final int Galeria=3;
+    MediaRecorder grabacion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +59,9 @@ public class CrearTareaMultimedia extends AppCompatActivity {
         getSupportActionBar().setIcon(R.mipmap.ic_launcher);
         ettitulo=findViewById(R.id.txttituloCTM);
         etdescripcion=findViewById(R.id.txtdescripcionCTM);
-        btnfecha=findViewById(R.id.btnfechaCTM);
-        btnhora=findViewById(R.id.btnhoraCTM);
         etfecha=findViewById(R.id.txtfechaCTM);
         ethora=findViewById(R.id.txthoraCTM);
-        btncamara=findViewById(R.id.btncamaraCTM);
-        btnvideo=findViewById(R.id.btnvideoCTM);
         btnaudio=findViewById(R.id.btnaudioCTM);
-        btngaleria=findViewById(R.id.btngaleriaCTM);
         lvmultimedias=findViewById(R.id.lvmultimediasCTM);
         lista= new ArrayList<>();
         uris= new ArrayList<>();
@@ -166,6 +165,62 @@ public class CrearTareaMultimedia extends AppCompatActivity {
         return videofile;
     }
 
+    //Metodos para los audios
+    public void GrabarAudio(View v)
+    {
+            try
+            {
+                CrearAudioFile();
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+            if(ruta!="")
+            {
+                if(grabacion==null)
+                {
+                    grabacion=new MediaRecorder();
+                    grabacion.setAudioSource(MediaRecorder.AudioSource.MIC);
+                    grabacion.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+                    grabacion.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
+                    grabacion.setOutputFile(ruta);
+                    try
+                    {
+                        grabacion.prepare();
+                        grabacion.start();
+
+                    }
+                    catch (IOException e) {
+
+                    }
+                    btnaudio.setText("⬜");
+                    Toast.makeText(this, "Grabando...", Toast.LENGTH_SHORT).show();
+                }
+                else if(grabacion!=null)
+                {
+                    grabacion.stop();
+                    grabacion.release();
+                    grabacion=null;
+                    btnaudio.setText("AUDIO");
+                    Toast.makeText(this, "Grabación Terminada", Toast.LENGTH_SHORT).show();
+                    rutaarchivo = Uri.parse(ruta);
+                    lista.add(new EntidadM("Audio",R.drawable.audio,rutaarchivo,R.id.btnañadir,R.id.btnelim));
+                    tipos.add("Audio");
+                    uris.add(rutaarchivo);
+                    adaptador= new AdaptadorMultimedias(this,lista);
+                    lvmultimedias.setAdapter(adaptador);
+                }
+            }
+    }
+
+    public void CrearAudioFile() throws IOException {
+        String tiempo = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        String nombre = "audio"+tiempo;
+        ruta=getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath()+"/"+nombre+".mp3";
+    }
+
+    //Metodo para la galeria
     public void CargarImagen(View v)
     {
         Intent galeria= new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -200,14 +255,7 @@ public class CrearTareaMultimedia extends AppCompatActivity {
             adaptador= new AdaptadorMultimedias(this,lista);
             lvmultimedias.setAdapter(adaptador);
         }
-    }//ultimo metodo para tomar fotos, videos y galeria
-
-    public void Audio(View v)
-    {
-        //lista.add(new EntidadM("Audio",R.drawable.audio,R.id.btnañadir,R.id.btnelim));
-        adaptador= new AdaptadorMultimedias(this,lista);
-        lvmultimedias.setAdapter(adaptador);
-    }
+    }//ultimo metodo para tomar fotos, videos, audios y galeria
 
     public void Guardar(View view)
     {

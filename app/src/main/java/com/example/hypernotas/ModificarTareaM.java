@@ -9,6 +9,7 @@ import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -37,29 +38,26 @@ public class ModificarTareaM extends AppCompatActivity {
     ArrayList<String> tipos;
     AdaptadorMultimedias Adaptador;
     private int dia, mes, ano,hora, minutos,clave;
-    String ruta= "";
-    Uri rutafoto;
-    final  int Photo=1;
-    Button btnfecha, btnhora, btncamara, btnvideo, btnaudio, btngaleria;
+    String ruta="";
+    Uri rutaarchivo;
+    final int Photo=1;
+    final int Video=2;
+    final int Galeria=3;
+    MediaRecorder grabacion;
+    Button btnaudio;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modificar_tarea_m);
 
-
-
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_launcher);
         titulo=findViewById(R.id.txttituloMODTM);
         descripcion=findViewById(R.id.txtdescripcionMODTM);
-        btnfecha= findViewById(R.id.btnfechaMODTM);
-        btnhora= findViewById(R.id.btnhoraMODTM);
         fecha= findViewById(R.id.txtfechaMODTM);
         ethora= findViewById(R.id.txthoraMODTM);
-        btncamara= findViewById(R.id.btncamaraMODTM);
-        btnvideo= findViewById(R.id.btnvideoMODTM);
         btnaudio= findViewById(R.id.btnaudioMODTM);
-        btngaleria= findViewById(R.id.btngaleriaMODTM);
         lvmultimedia=findViewById(R.id.lvmultimediasMODTM);
         clave=Integer.parseInt(getIntent().getStringExtra("clave"));
         BD admin =new BD(this,"hypernotas",null,1);
@@ -139,18 +137,130 @@ public class ModificarTareaM extends AppCompatActivity {
         return photofile;
     }
 
+    //Metodos para los videos
+    public void TomarVideo(View v)
+    {
+        Intent tomarvideo= new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        if(tomarvideo.resolveActivity(getPackageManager())!=null)
+        {
+            File videofile = null;
+            try
+            {
+                videofile=CrearVideoFile();
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+            if(videofile!=null)
+            {
+                Uri videouri= FileProvider.getUriForFile(ModificarTareaM.this,"com.example.hypernotas",videofile);
+                tomarvideo.putExtra(MediaStore.EXTRA_OUTPUT,videouri);
+                startActivityForResult(tomarvideo,Video);
+            }
+        }
+    }
+
+    public File CrearVideoFile() throws IOException {
+        String tiempo = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        String nombre = "video"+tiempo;
+        File storagefile = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File videofile = File.createTempFile(nombre,".mp4",storagefile);
+        ruta=videofile.getAbsolutePath();
+        return videofile;
+    }
+
+    //Metodos para los audios
+    public void GrabarAudio(View v)
+    {
+        try
+        {
+            CrearAudioFile();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        if(ruta!="")
+        {
+            if(grabacion==null)
+            {
+                grabacion=new MediaRecorder();
+                grabacion.setAudioSource(MediaRecorder.AudioSource.MIC);
+                grabacion.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+                grabacion.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
+                grabacion.setOutputFile(ruta);
+                try
+                {
+                    grabacion.prepare();
+                    grabacion.start();
+
+                }
+                catch (IOException e) {
+
+                }
+                btnaudio.setText("⬜");
+                Toast.makeText(this, "Grabando...", Toast.LENGTH_SHORT).show();
+            }
+            else if(grabacion!=null)
+            {
+                grabacion.stop();
+                grabacion.release();
+                grabacion=null;
+                btnaudio.setText("AUDIO");
+                Toast.makeText(this, "Grabación Terminada", Toast.LENGTH_SHORT).show();
+                rutaarchivo = Uri.parse(ruta);
+                lista.add(new EntidadM("Audio",R.drawable.audio,rutaarchivo,R.id.btnañadir,R.id.btnelim));
+                tipos.add("Audio");
+                uris.add(rutaarchivo);
+                Adaptador= new AdaptadorMultimedias(this,lista);
+                lvmultimedia.setAdapter(Adaptador);
+            }
+        }
+    }
+
+    public void CrearAudioFile() throws IOException {
+        String tiempo = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        String nombre = "audio"+tiempo;
+        ruta=getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath()+"/"+nombre+".mp3";
+    }
+
+
+    public void CargarImagen(View v)
+    {
+        Intent galeria= new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        galeria.setType("image/");
+        startActivityForResult(galeria,Galeria);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Photo && resultCode == RESULT_OK) {
-            rutafoto = Uri.parse(ruta);
-            lista.add(new EntidadM("Foto",R.drawable.camara,rutafoto,R.id.btnañadir,R.id.btnelim));
+            rutaarchivo = Uri.parse(ruta);
+            lista.add(new EntidadM("Foto",R.drawable.camara,rutaarchivo,R.id.btnañadir,R.id.btnelim));
             tipos.add("Foto");
-            uris.add(rutafoto);
+            uris.add(rutaarchivo);
             Adaptador= new AdaptadorMultimedias(this,lista);
             lvmultimedia.setAdapter(Adaptador);
         }
-    }//ultimo metodo para tomar fotos
+        if (requestCode == Video && resultCode == RESULT_OK) {
+            rutaarchivo = Uri.parse(ruta);
+            lista.add(new EntidadM("Video",R.drawable.video,rutaarchivo,R.id.btnañadir,R.id.btnelim));
+            tipos.add("Video");
+            uris.add(rutaarchivo);
+            Adaptador= new AdaptadorMultimedias(this,lista);
+            lvmultimedia.setAdapter(Adaptador);
+        }
+        if (requestCode == Galeria && resultCode == RESULT_OK) {
+            rutaarchivo = data.getData();
+            lista.add(new EntidadM("Galeria",R.drawable.galeria,rutaarchivo,R.id.btnañadir,R.id.btnelim));
+            tipos.add("Galeria");
+            uris.add(rutaarchivo);
+            Adaptador= new AdaptadorMultimedias(this,lista);
+            lvmultimedia.setAdapter(Adaptador);
+        }
+    }//ultimo metodo para tomar fotos, videos, audios y galeria
 
     public void Guardar(View view)
     {

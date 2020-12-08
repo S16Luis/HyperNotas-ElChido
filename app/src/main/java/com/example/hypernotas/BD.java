@@ -24,7 +24,7 @@ public class BD extends SQLiteOpenHelper{
         BaseDeDatos.execSQL("create table tareas(ClaveTarea integer primary key autoincrement, Titulo varchar(25) not null, FechaCreacion varchar(25) not null," +
                             "FechaRealizacion varchar(25) not null, Hora varchar(25) not null, Descripcion text not null, Completada varchar(2) not null)");
         BaseDeDatos.execSQL("create table multimedias(ClaveMultimedia integer primary key autoincrement, Tipo varchar(25) not null,"+
-                            "Multimedia Text not null, Tarea integer not null, foreign key(Tarea) references tareas(ClaveTarea))");
+                            "Multimedia Text not null, Nombre Text not null, Tarea integer not null, foreign key(Tarea) references tareas(ClaveTarea))");
     }
 
     @Override
@@ -131,22 +131,22 @@ public class BD extends SQLiteOpenHelper{
                 if(registros.getString(1).equals("Foto"))
                 {
                     listamultimedia.add(new EntidadM(registros.getString(1), R.drawable.camara,
-                            Uri.parse(registros.getString(2)), R.id.btneditar,R.id.btneliminar));
+                            Uri.parse(registros.getString(2)), registros.getString(3)));
                 }
                 if(registros.getString(1).equals("Video"))
                 {
                     listamultimedia.add(new EntidadM(registros.getString(1), R.drawable.video,
-                            Uri.parse(registros.getString(2)), R.id.btneditar,R.id.btneliminar));
+                            Uri.parse(registros.getString(2)),registros.getString(3) ));
                 }
                 if(registros.getString(1).equals("Audio"))
                 {
                     listamultimedia.add(new EntidadM(registros.getString(1), R.drawable.audio,
-                            Uri.parse(registros.getString(2)), R.id.btneditar,R.id.btneliminar));
+                            Uri.parse(registros.getString(2)), registros.getString(3)));
                 }
                 if(registros.getString(1).equals("Galeria"))
                 {
                     listamultimedia.add(new EntidadM(registros.getString(1), R.drawable.galeria,
-                            Uri.parse(registros.getString(2)), R.id.btneditar,R.id.btneliminar));
+                            Uri.parse(registros.getString(2)), registros.getString(3)));
                 }
 
             }while(registros.moveToNext());

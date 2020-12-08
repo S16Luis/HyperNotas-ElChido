@@ -7,35 +7,31 @@
 
     <LinearLayout
         android:layout_width="250dp"
-        android:layout_height="80dp"
+        android:layout_height="40dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
         <ImageView
             android:id="@+id/imgiconos"
             android:layout_width="140dp"
-            android:layout_height="80dp"
+            android:layout_height="40dp"
             android:layout_weight="1"
             tools:srcCompat="@tools:sample/avatars" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="40dp"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/btnañadir"
+        <TextView
+            android:id="@+id/tvnombre"
             android:layout_width="match_parent"
-            android:layout_height="39dp"
-            android:text="@string/añadir" />
-
-        <Button
-            android:id="@+id/btnelim"
-            android:layout_width="match_parent"
-            android:layout_height="39dp"
-            android:text="@string/btneliminar" />
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="@string/titulo"
+            android:textColor="#000000" />
     </LinearLayout>
 
 </LinearLayout>

@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -43,10 +43,50 @@ public class AdaptadorMultimedias extends BaseAdapter {
         final EntidadM item = (EntidadM) getItem(i);
         view= LayoutInflater.from(context).inflate(R.layout.multimedias,null);
         ImageView img = view.findViewById(R.id.imgiconos);
-        Button btnaña = view.findViewById(R.id.btnañadir);
-        Button btnelim = view.findViewById(R.id.btnelim);
+        TextView nombre=view.findViewById(R.id.tvnombre);
         img.setImageResource(item.getImg());
+        nombre.setText(item.getNombre());
         img.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if(item.getTipo().equals("Foto"))
+                {
+                    Intent intent = new Intent(context,VisualizarImagenes.class);
+                    intent.putExtra("Uri",String.valueOf(item.getUri()));
+                    context.startActivity(intent);
+                }
+                if(item.getTipo().equals("Video"))
+                {
+                    Intent intent = new Intent(context,VisualizarVideos.class);
+                    intent.putExtra("Uri",String.valueOf(item.getUri()));
+                    context.startActivity(intent);
+                }
+                if(item.getTipo().equals("Audio"))
+                {
+                    MediaPlayer mediaPlayer = new MediaPlayer();
+                    try
+                    {
+                        mediaPlayer.setDataSource(item.getUri().toString());
+                        mediaPlayer.prepare();
+                    }
+                    catch(IOException e)
+                    {
+
+                    }
+                    mediaPlayer.start();
+                    Toast.makeText(context, "Reproduciendo audio", Toast.LENGTH_SHORT).show();
+                }
+                if(item.getTipo().equals("Galeria"))
+                {
+                    Intent intent = new Intent(context,VisualizarImagenes.class);
+                    intent.putExtra("Uri",String.valueOf(item.getUri()));
+                    context.startActivity(intent);
+                }
+            }
+        });
+        nombre.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)

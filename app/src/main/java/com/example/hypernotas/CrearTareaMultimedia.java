@@ -4,13 +4,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
@@ -48,7 +48,10 @@ public class CrearTareaMultimedia extends AppCompatActivity {
     final int Photo=1;
     final int Video=2;
     final int Galeria=3;
+    final int notificar=4;
     MediaRecorder grabacion;
+    Calendar choras = Calendar.getInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,9 +89,8 @@ public class CrearTareaMultimedia extends AppCompatActivity {
 
     public void SeleccionarHora(View v)
     {
-        Calendar c = Calendar.getInstance();
-        hora=c.get(Calendar.HOUR_OF_DAY);
-        minutos=c.get(Calendar.MINUTE);
+        hora=choras.get(Calendar.HOUR_OF_DAY);
+        minutos=choras.get(Calendar.MINUTE);
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
@@ -317,5 +319,34 @@ public class CrearTareaMultimedia extends AppCompatActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         Date date = new Date();
         return dateFormat.format(date);
+    }
+
+    public void Recordatorio(View v)
+    {
+        String titulo=ettitulo.getText().toString();
+        String descripcion=etdescripcion.getText().toString();
+        String fechar=etfecha.getText().toString();
+        String horas=ethora.getText().toString();
+        if(!titulo.isEmpty()&&!descripcion.isEmpty()&&!fechar.isEmpty()&&!horas.isEmpty())
+        {
+            Intent intent = new Intent(this, AlarmReceiver.class);
+            intent.putExtra("notificacion",notificar);
+            intent.putExtra("titulo",titulo);
+            intent.putExtra("descripcion",descripcion);
+            intent.putExtra("hora",horas);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            final Calendar horaalarma= Calendar.getInstance();
+            horaalarma.set(Calendar.HOUR_OF_DAY,hora);
+            horaalarma.set(Calendar.MINUTE,minutos);
+            horaalarma.set(Calendar.SECOND,0);
+            long alarma = horaalarma.getTimeInMillis()-System.currentTimeMillis();
+            alarmManager.set(AlarmManager.RTC_WAKEUP,alarma,pendingIntent);
+            Toast.makeText(this, "Recordatorio Creado", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            Toast.makeText(this, "Debes llenar todos los campos", Toast.LENGTH_SHORT).show();
+        }
     }
 }

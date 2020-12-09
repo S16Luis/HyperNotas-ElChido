@@ -40,7 +40,7 @@ public class ModificarTareaM extends AppCompatActivity {
     ArrayList<String> tipos;
     ArrayList<String> nombres;
     AdaptadorMultimedias Adaptador;
-    private int dia, mes, ano,hora, minutos,clave;
+    private int dia, mes, ano,hora, minutos,clave,alarh,alarm;
     String ruta="";
     String nombre="";
     Uri rutaarchivo;
@@ -105,6 +105,8 @@ public class ModificarTareaM extends AppCompatActivity {
             @Override
             public void onTimeSet(TimePicker timePicker, int hora, int minutos) {
                 ethora.setText(hora+":"+minutos);
+                alarh=hora;
+                alarm=minutos;
             }
         },hora,minutos,true);
         timePickerDialog.show();
@@ -333,29 +335,26 @@ public class ModificarTareaM extends AppCompatActivity {
     public void Recordatorio(View v)
     {
         String tit=titulo.getText().toString();
-        String descrip=descripcion.getText().toString();
-        String fechar=fecha.getText().toString();
         String horas=ethora.getText().toString();
-        if(!tit.isEmpty()&&!descrip.isEmpty()&&!fechar.isEmpty()&&!horas.isEmpty())
+        if(!tit.isEmpty()&&!horas.isEmpty())
         {
             Intent intent = new Intent(this, AlarmReceiver.class);
             intent.putExtra("notificacion",notificar);
             intent.putExtra("titulo",tit);
-            intent.putExtra("descripcion",descrip);
             intent.putExtra("hora",horas);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
             AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
             final Calendar horaalarma= Calendar.getInstance();
-            horaalarma.set(Calendar.HOUR_OF_DAY,hora);
-            horaalarma.set(Calendar.MINUTE,minutos);
+            horaalarma.set(Calendar.HOUR_OF_DAY,alarh);
+            horaalarma.set(Calendar.MINUTE,alarm);
             horaalarma.set(Calendar.SECOND,0);
-            long alarma = horaalarma.getTimeInMillis()-System.currentTimeMillis();
+            long alarma = horaalarma.getTimeInMillis();
             alarmManager.set(AlarmManager.RTC_WAKEUP,alarma,pendingIntent);
             Toast.makeText(this, "Recordatorio Creado", Toast.LENGTH_SHORT).show();
         }
         else
         {
-            Toast.makeText(this, "Debes llenar todos los campos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Debes ingresar el titulo y la hora", Toast.LENGTH_SHORT).show();
         }
     }
 }

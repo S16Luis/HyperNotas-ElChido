@@ -1,5 +1,6 @@
 package com.example.hypernotas;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -21,6 +22,7 @@ public class AdaptadorTM extends BaseAdapter implements Filterable {
     private ArrayList<EntidadTM> lista;
     CustomFilter filtro;
     ArrayList<EntidadTM> filtroList;
+    String com;
 
     public AdaptadorTM(Context context, ArrayList<EntidadTM> lista) {
         this.context = context;
@@ -52,13 +54,21 @@ public class AdaptadorTM extends BaseAdapter implements Filterable {
         TextView tvtit = view.findViewById(R.id.tvtituloTM);
         TextView tvfec = view.findViewById(R.id.tvfechaTM);
         TextView tvcant= view.findViewById(R.id.tvcantidad);
-        CheckBox cbcom= view.findViewById(R.id.cbcompletada);
+        final CheckBox cbcom= view.findViewById(R.id.cbcompletada);
         Button btnedit = view.findViewById(R.id.btneditarTM);
         Button btnelim = view.findViewById(R.id.btneliminarTM);
         tvcla.setText(item.getTvclave());
         tvtit.setText(item.getTvtitulo());
         tvfec.setText(item.getTvfecha());
         tvcant.setText(item.getTvcantidad());
+        if(item.getTvcompletada().equals("Si"))
+        {
+            cbcom.setChecked(true);
+        }
+        else
+        {
+            cbcom.setChecked(false);
+        }
         cbcom.setText("Completada");
         btnedit.setText("Editar");
         btnelim.setText("Eliminar");
@@ -121,6 +131,30 @@ public class AdaptadorTM extends BaseAdapter implements Filterable {
             }
         });
 
+        cbcom.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                BD admin =new BD(context,"hypernotas",null,1);
+                SQLiteDatabase bd=admin.getWritableDatabase();
+                if(cbcom.isChecked())
+                {
+                    com="Si";
+                    Toast.makeText(context, "Tarea Completada", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    com="No";
+                    Toast.makeText(context, "Tarea No Completada", Toast.LENGTH_SHORT).show();
+                }
+                ContentValues registro = new ContentValues();
+                registro.put("completada",com);
+                bd.update("tareas",registro,"ClaveTarea="+item.getTvclave(),null);
+                bd.close();
+            }
+        });
+
         return view;
 
     }
@@ -149,7 +183,7 @@ public class AdaptadorTM extends BaseAdapter implements Filterable {
                 for(Integer i=0;i<filtroList.size();i++){
                     if(filtroList.get(i).getTvtitulo().toUpperCase().contains(constraint)){
                         filtro.add(new EntidadTM(filtroList.get(i).getTvclave(),filtroList.get(i).getTvtitulo(),
-                                filtroList.get(i).getTvfecha(),filtroList.get(i).getTvcantidad(),
+                                filtroList.get(i).getTvfecha(),filtroList.get(i).getTvcantidad(), filtroList.get(i).getTvcompletada(),
                                 R.id.cbcompletada,R.id.btneditar,R.id.btneliminar));
                     }
                 }

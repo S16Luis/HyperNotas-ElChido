@@ -54,7 +54,7 @@ public class BD extends SQLiteOpenHelper{
         bd= this.getWritableDatabase();
         String consulta="Select t.ClaveTarea, t.titulo, t.FechaRealizacion, t.hora," +
                 " (select count(*) from multimedias m where m.tarea=t.clavetarea) as cantidad, t.Completada" +
-                " from tareas t";
+                " from tareas t order by t.FechaRealizacion asc";
         Cursor registros = bd.rawQuery(consulta,null);
         if(registros.moveToFirst())
         {

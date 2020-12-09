@@ -53,7 +53,7 @@ public class BD extends SQLiteOpenHelper{
         ArrayList <EntidadTM> listatareas= new ArrayList<>();
         bd= this.getWritableDatabase();
         String consulta="Select t.ClaveTarea, t.titulo, t.FechaRealizacion, t.hora," +
-                " (select count(*) from multimedias m where m.tarea=t.clavetarea) as cantidad" +
+                " (select count(*) from multimedias m where m.tarea=t.clavetarea) as cantidad, t.Completada" +
                 " from tareas t";
         Cursor registros = bd.rawQuery(consulta,null);
         if(registros.moveToFirst())
@@ -61,7 +61,8 @@ public class BD extends SQLiteOpenHelper{
             do {
                 listatareas.add(new EntidadTM(registros.getString(0), registros.getString(1),
                                     "Fecha de realización: "+registros.getString(2)+" "+registros.getString(3),
-                                "Cantidad Multimedias: "+registros.getString(4),R.id.cbcompletada,R.id.btneditar,R.id.btneliminar));
+                                "Cantidad Multimedias: "+registros.getString(4), registros.getString(5),
+                                    R.id.cbcompletada,R.id.btneditar,R.id.btneliminar));
             }while(registros.moveToNext());
         }
         return listatareas;

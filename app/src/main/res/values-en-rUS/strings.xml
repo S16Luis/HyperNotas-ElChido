@@ -24,8 +24,5 @@
     <string name="añadir">Add</string>
     <string name="cantidad">Quantity</string>
     <string name="completada">Completed</string>
-
-
-
-
+    <string name="recordatorio">Reminder</string>
 </resources>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HyperNotas</string>
+    <string name="nueva">+</string>
+    <string name="titulo">Title</string>
+    <string name="descripcion">Description</string>
+    <string name="guardar">Save</string>
+    <string name="buscar">Search</string>
+    <string name="notas">Notes</string>
+    <string name="tareas">Multimedia Tasks</string>
+    <string name="clave">No.</string>
+    <string name="fecha">Date</string>
+    <string name="btneditar">Edit</string>
+    <string name="btneliminar">Delete</string>
+    <string name="fecharealizacion">Date and time of completion</string>
+    <string name="vacio"></string>
+    <string name="hora">Time</string>
+    <string name="multimedia">Insert Multimedia</string>
+    <string name="camara">Photo</string>
+    <string name="audio">Audio</string>
+    <string name="video">Video</string>
+    <string name="galeria">Gallery</string>
+    <string name="multimedias">Multimedia</string>
+    <string name="añadir">Add</string>
+    <string name="cantidad">Quantity</string>
+    <string name="completada">Completed</string>
+
+
+
+
+</resources>
